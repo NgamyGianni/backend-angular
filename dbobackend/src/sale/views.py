@@ -6,28 +6,33 @@ from rest_framework.response import Response
 from rest_framework import status
 
 class Sale(APIView):
-    """
-    Retrieve, update or delete a snippet instance.
-    """
-    def get_object(self, pk):
-        try:
-            return Sale.objects.get(id=pk)
-        except Sale.DoesNotExist:
-            raise Http404
+	"""
+	Retrieve, update or delete a snippet instance.
+	"""
+	def get_object(self, pk):
+		try:
+			return Sale.objects.get(id=pk)
+		except Sale.DoesNotExist:
+			raise Http404
 
-    def get(self, request, pk, format=None):
-        snippet = self.get_object(pk)
-        serializer = SaleSerialisers(snippet)
-        return Response(serializer.data)
+	def get(self, request, pk, format=None):
+		snippet = self.get_object(pk)
+		serializer = SaleSerialisers(snippet)
+		return Response(serializer.data)
 
 class SaleList(APIView):
-    """
-    Retrieve, update or delete a snippet instance.
-    """
+	"""
+	Retrieve, update or delete a snippet instance.
+	"""
 
-    def get(self, request, format=None):
-        result = []
-        for prod in Sale.objects.all():
-            serializer = SaleSerialisers(prod)
-            res.append(Response(serializer.data))
-        return JsonResponse(res, safe=False)
+	def get(self, request, format=None):
+		sales = Sale.objects.all()
+		serializer = SaleSerialisers(sales, many=True)
+		return Response(serializer.data)
+
+	def post(self, request, format=None):
+		serializer = SaleSerialisers(data=request.data)
+		if serializer.is_valid():
+			serializer.save()
+			return Response(serializer.data, status=status.HTTP_201_CREATED)
+		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
