@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from rest_framework import status
 
 
-class ProductLists(APIView):
+class ProductDetail(APIView):
     """
     Retrieve, update or delete a snippet instance.
     """
@@ -29,3 +29,20 @@ class ProductLists(APIView):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ProductList(APIView):
+    """
+    Retrieve, update or delete a snippet instance.
+    """
+
+    # def get_object(self, pk):
+    #     try:
+    #         return Product.objects.get(id=pk)
+    #     except Product.DoesNotExist:
+    #         raise Http404
+
+    def get(self, request, format=None):
+        productlist = Product.objects.all()
+        serializer = ProductSerialisers(productlist)
+        return Response(serializer.data)
