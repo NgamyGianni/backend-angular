@@ -6,12 +6,12 @@ from datetime import datetime
 
 
 class Purchase(models.Model):
-    category = models.IntegerField(default='-1')
-    price = models.DecimalField(decimal_places=2, max_digits=1000)
-    owner = models.TextField(max_length=100)
-    name = models.TextField(max_length=100)
-    quantity_sold = models.IntegerField(default='0')
-    date = models.DateField(default=str(datetime.now()))
+    category = models.IntegerField(default=-1)
+    price = models.FloatField(default=0.0)
+    owner = models.CharField(max_length=100, default='')
+    name = models.CharField(max_length=100, default='')
+    quantity_sold = models.IntegerField(default=0)
+    date = models.DateField(default=str(datetime.now())[0:10])
 
     class Meta:
         ordering = ('date',)
