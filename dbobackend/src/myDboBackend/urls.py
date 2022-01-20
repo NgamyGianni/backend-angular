@@ -21,4 +21,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     #path('product/<int:pk>', ProductLists.as_view())
     path('', include('product.urls')),
+    path('', include('sale.urls')),
+    path('', include('purchase.urls')),
 ]
