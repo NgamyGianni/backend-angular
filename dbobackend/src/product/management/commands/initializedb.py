@@ -15,7 +15,20 @@ class Command(BaseCommand):
         jsondata = response.json()
         Product.objects.all().delete()
         for product in jsondata:
-            serializer = ProductSerialisers(data=jsondata)
+            serializer = ProductSerialisers(data={
+                'comments': str(product['comments']),
+                'category': str(product['category']),
+                'availability': str(product['availability']),
+                'price': str(product['price']),
+                'price_on_sale': 0,
+                'discount': str(product['discount']),
+                'sale': str(product['sale']),
+                'owner': str(product['owner']),
+                'unit': str(product['unit']),
+                'name': str(product['name']),
+                'quantity_stock': 0,
+                'quantity_sold': 0
+            })
             if serializer.is_valid():
                 serializer.save()
                 self.stdout.write(self.style.SUCCESS(
